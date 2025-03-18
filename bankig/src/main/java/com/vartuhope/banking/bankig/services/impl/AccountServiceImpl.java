@@ -2,8 +2,10 @@ package com.vartuhope.banking.bankig.services.impl;
 
 import com.vartuhope.banking.bankig.dto.AccountDTO;
 import com.vartuhope.banking.bankig.entities.Account;
+import com.vartuhope.banking.bankig.entities.Customer;
 import com.vartuhope.banking.bankig.mapper.AccountMapper;
 import com.vartuhope.banking.bankig.reposetories.AccountReposetory;
+import com.vartuhope.banking.bankig.reposetories.CustomerReposetory;
 import com.vartuhope.banking.bankig.services.AccountService;
 
 import java.util.List;
@@ -17,29 +19,34 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountReposetory accountRepository;
+	private final CustomerReposetory customerReposetory;
 
     @Autowired // Spring will inject this dependency
-    public AccountServiceImpl(AccountReposetory accountRepository) {
+    public AccountServiceImpl(AccountReposetory accountRepository, CustomerReposetory customerReposetory) {
         this.accountRepository = accountRepository;
+		this.customerReposetory = customerReposetory;
     }
+
 
     @Override
     public AccountDTO createAccount(AccountDTO accDTO) {
 
         // Convert DTO to Entity
         Account acc = AccountMapper.mapToAccount(accDTO);
-        
+
+		Customer customer = acc.getCustomer();
         // Save to Database
+		customerReposetory.save(customer);
         Account savedAccount = accountRepository.save(acc);
         
         // Convert Back to DTO and Return
-        return AccountMapper.mapToAccountDTO(savedAccount);
+        return AccountMapper.convertToDTO(savedAccount);
     }
 
 	@Override
 	public AccountDTO getAccountById(Long Id) {
 		Account acc= accountRepository.findById(Id).orElseThrow();
-		return AccountMapper.mapToAccountDTO(acc);
+		return AccountMapper.convertToDTO(acc);
 	}
 
 	@Override
@@ -49,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
 		System.out.println("=========== Deposit Amount : "+amount+" last Amount : "+acc.getBalance()+" currnt balance : "+finalAmount);
 		acc.setBalance(finalAmount);
 		Account saveAcc= accountRepository.save(acc);
-		return AccountMapper.mapToAccountDTO(saveAcc);
+		return AccountMapper.convertToDTO(saveAcc);
 	}
 
 	@Override
@@ -62,13 +69,13 @@ public class AccountServiceImpl implements AccountService {
 		System.out.println("=========== withdrow Amount : "+amount+" last Amount : "+acc.getBalance()+" currnt balance : "+finalAmount);
 		acc.setBalance(finalAmount);
 		Account saveAcc= accountRepository.save(acc);
-		return AccountMapper.mapToAccountDTO(saveAcc);
+		return AccountMapper.convertToDTO(saveAcc);
 	}
 
 	@Override
 	public List<AccountDTO> getAllAccounts() {
 		List<Account> accounts = accountRepository.findAll();
-		return	accounts.stream().map((account)->AccountMapper.mapToAccountDTO(account)).collect(Collectors.toList());
+		return	accounts.stream().map((account)->AccountMapper.convertToDTO(account)).collect(Collectors.toList());
 	}
 
 	@Override

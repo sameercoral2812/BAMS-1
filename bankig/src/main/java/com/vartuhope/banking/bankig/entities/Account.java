@@ -1,75 +1,59 @@
 package com.vartuhope.banking.bankig.entities;
 
+
+import org.hibernate.annotations.Cascade;
+
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="accounts")
+@Table(name = "accounts")
 public class Account {
-	
-	
-	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 
-	@Nonnull
-	@Column(name = "account_holder_name")
-	private String accHolderName;
-	
-	@Nonnull
-	@Column
-	private Double balance; 
-	
-	
-	public Account(Long id, String accHolderName, Double balance) {
-		super();
-		this.id = id;
-		this.accHolderName = accHolderName;
-		this.balance = balance;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Nonnull
+    @Column(name = "account_no", unique = true, nullable = false)
+    private String accountNo;  // Unique account number
 
-	public Account() {
-		super();
-	}
+    @Nonnull
+    @Column(name = "account_holder_name")
+    private String accHolderName;
 
+    @Nonnull
+    @Column
+    private Double balance;
 
-	public Long getId() {
-		return id;
-	}
+	@OneToOne
+	@JoinColumn(name = "customer_id")
+    private Customer customer;  // Now using customer_id as foreign key
 
+    // Constructors
+    public Account() {}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Account(Long id, String accountNo, String accHolderName, Double balance, Customer customer) {
+        this.id = id;
+        this.accountNo = accountNo;
+        this.accHolderName = accHolderName;
+        this.balance = balance;
+        this.customer = customer;
+    }
 
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-	public String getAccHolderName() {
-		return accHolderName;
-	}
+    public String getAccountNo() { return accountNo; }
+    public void setAccountNo(String accountNo) { this.accountNo = accountNo; }
 
+    public String getAccHolderName() { return accHolderName; }
+    public void setAccHolderName(String accHolderName) { this.accHolderName = accHolderName; }
 
-	public void setAccHolderName(String accHolderName) {
-		this.accHolderName = accHolderName;
-	}
+    public Double getBalance() { return balance; }
+    public void setBalance(Double balance) { this.balance = balance; }
 
-
-	public Double getBalance() {
-		return balance;
-	}
-
-
-	public void setBalance(Double balance) {
-		this.balance = balance;
-	}
-	
-	
-	
-
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
 }
