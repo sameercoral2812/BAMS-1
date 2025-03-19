@@ -31,7 +31,7 @@ public class AccountController {
         try {
             System.out.println("=========== AccountDTO : "+accDTO.getCustomerEmail());
             String hashedPassword = passwordEncoder.encode(accDTO.getCustomerPassWord());
-            accDTO.setCustomerAddress(hashedPassword);
+            accDTO.setCustomerPassWord(hashedPassword);
             AccountDTO savedAccount = accountService.createAccount(accDTO);
             return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
         } catch (Exception e) {

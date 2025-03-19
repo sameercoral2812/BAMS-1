@@ -6,4 +6,6 @@ import com.vartuhope.banking.bankig.entities.Customer;
 
 public interface CustomerReposetory extends JpaRepository<Customer, Long> {
 
+    public Customer findByEmail(String email);
+
 }
