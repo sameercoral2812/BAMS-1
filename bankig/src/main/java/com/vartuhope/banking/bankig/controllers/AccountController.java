@@ -6,9 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.vartuhope.banking.bankig.dto.AccountDTO;
+import com.vartuhope.banking.bankig.entities.Customer;
 import com.vartuhope.banking.bankig.services.AccountService;
 
 @RestController
@@ -16,6 +18,8 @@ import com.vartuhope.banking.bankig.services.AccountService;
 public class AccountController {
 
     private final AccountService accountService;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     @Autowired
     public AccountController(AccountService accountService) {
@@ -26,6 +30,8 @@ public class AccountController {
     public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accDTO) {
         try {
             System.out.println("=========== AccountDTO : "+accDTO.getCustomerEmail());
+            String hashedPassword = passwordEncoder.encode(accDTO.getCustomerPassWord());
+            accDTO.setCustomerAddress(hashedPassword);
             AccountDTO savedAccount = accountService.createAccount(accDTO);
             return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
         } catch (Exception e) {

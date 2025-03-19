@@ -13,6 +13,7 @@ public class AccountDTO {
     private Long customerId;
     private String customerName;
 	private String customerEmail;
+	private String customerPassWord;
     private String customerAddress;
     private String customerPhoneNumber;
 
@@ -21,14 +22,15 @@ public class AccountDTO {
 
     // Constructor with fields
     public AccountDTO(Long id, String accountNo, String accHolderName, Double balance,
-                      Long customerId, String customerName,String customerEmail, String customerAddress, String customerPhoneNumber) {
+                      Long customerId,String customerEmail,String customerPassWord, String customerAddress, String customerPhoneNumber) {
         this.id = id;
         this.accountNo = accountNo;
         this.accHolderName = accHolderName;
         this.balance = balance;
         this.customerId = customerId;
-        this.customerName = customerName;
+        this.customerName = accHolderName;
 		this.customerEmail = customerEmail;
+		this.customerPassWord = customerPassWord;
         this.customerAddress = customerAddress;
         this.customerPhoneNumber = customerPhoneNumber;
     }
@@ -44,6 +46,7 @@ public class AccountDTO {
             this.customerId = account.getCustomer().getId();
             this.customerName = account.getCustomer().getName();
 			this.customerEmail = account.getCustomer().getEmail();
+			this.customerPassWord = account.getCustomer().getPassword();
             this.customerAddress = account.getCustomer().getAddress();
             this.customerPhoneNumber = account.getCustomer().getPhone();
         }
@@ -61,6 +64,9 @@ public class AccountDTO {
 
 	public String getCustomerEmail() { return customerEmail; }
 	public void setCustomeeEmail(String customerEmail) { this.customerEmail = customerEmail; }
+
+	public String getCustomerPassWord() { return customerPassWord; }	
+	public void setCustomerPassWord(String customerPassWord) { this.customerPassWord = customerPassWord; }
 
     public Double getBalance() { return balance; }
     public void setBalance(Double balance) { this.balance = balance; }

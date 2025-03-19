@@ -30,6 +30,10 @@ public class Customer {
     private String email;
 
     @Nonnull
+    @Column(name = "customer_password", nullable = false)
+    private String password;
+
+    @Nonnull
     @Column(name = "customer_phone", unique = true, nullable = false)
     private String phone;
 
@@ -43,10 +47,11 @@ public class Customer {
     // Constructors
     public Customer() {}
 
-    public Customer(Long id, String name, String email, String phone, String address) {
+    public Customer(Long id, String name, String email,String password, String phone, String address) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.phone = phone;
         this.address = address;
     }
@@ -60,6 +65,9 @@ public class Customer {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }

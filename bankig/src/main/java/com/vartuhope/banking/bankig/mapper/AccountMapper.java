@@ -12,6 +12,7 @@ public class AccountMapper {
             accDTO.getCustomerId(),  // Existing ID (null for new customer)
             accDTO.getCustomerName(),
 			accDTO.getCustomerEmail(),
+			accDTO.getCustomerPassWord(),
 			accDTO.getCustomerPhoneNumber(),
             accDTO.getCustomerAddress()
         );
@@ -42,8 +43,8 @@ public class AccountMapper {
             account.getAccHolderName(),
             account.getBalance(),
             customer != null ? customer.getId() : null,
-            customer != null ? customer.getName() : null,
 			customer != null ? customer.getEmail() : null,
+			customer != null ? customer.getPassword() : null,
             customer != null ? customer.getAddress() : null,
             customer != null ? customer.getPhone() : null
         );

@@ -13,6 +13,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountReposetory accountRepository;
 	private final CustomerReposetory customerReposetory;
 
-    @Autowired // Spring will inject this dependency
+
     public AccountServiceImpl(AccountReposetory accountRepository, CustomerReposetory customerReposetory) {
         this.accountRepository = accountRepository;
 		this.customerReposetory = customerReposetory;
@@ -33,7 +34,6 @@ public class AccountServiceImpl implements AccountService {
 
         // Convert DTO to Entity
         Account acc = AccountMapper.mapToAccount(accDTO);
-
 		Customer customer = acc.getCustomer();
         // Save to Database
 		customerReposetory.save(customer);
